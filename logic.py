@@ -192,6 +192,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.label2.show()
         self.lineEdit2.show()
         self.submit.show()
+        self.submit.setGeometry(370, 200, 61, 20)
         self.label1.setGeometry(260, 90, 100, 26)
 
         self.label1.setText("Length")
@@ -205,6 +206,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.label2.show()
         self.lineEdit2.show()
         self.submit.show()
+        self.submit.setGeometry(370, 200, 61, 20)
         self.label1.setGeometry(260, 90, 100, 26)
 
         self.label1.setText("Base")
@@ -354,4 +356,3 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.setFixedWidth(400)
             self.__mode = True
             '''
-
