@@ -7,36 +7,58 @@ WIDTH_NO_MODE = 255
 HEIGHT = 300
 
 
-def is_float(str):
+def is_float(string: str) -> bool:
+    """
+    Check if string is a float
+    :param string:
+    :return: True if string is a float, False otherwise
+    """
     try:
-        float(str)
+        float(string)
         return True
     except ValueError:
         return False
 
 
-def is_int(str):
+def is_int(string: str) -> bool:
+    """
+    Check if string is an integer
+    :param string:
+    :return: True if string is an integer, False otherwise
+    """
     try:
-        int(str)
+        int(string)
         return True
     except ValueError:
         return False
 
 
 class Logic(QMainWindow, Ui_MainWindow):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
         self.setFixedWidth(WIDTH_NO_MODE)
+        """
+        Clear display, set calculator to 0
+        Create self.var1 to determine when the equal button has been pushed
+        Create  self.__negative for the +/- button
+        Create self.__mode for when the mode button is clicked
+        hide labels, submit button of the mode section of the calculator
+        """
         self.preview.setText("")
         self.main_text.setText("0")
         self.var1 = 1
         self.__negative = False
+        self.__mode = False
         self.label1.hide()
         self.label2.hide()
         self.lineEdit1.hide()
         self.lineEdit2.hide()
         self.submit.hide()
+
+        """
+         Adjust fonts, colors, geometries of labels and buttons
+        """
 
         self.circle.setGeometry(260, 20, 100, 20)
         self.square.setGeometry(360, 20, 100, 20)
@@ -53,7 +75,10 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.preview.setGeometry(126, 15, 111, 20)
         self.main_text.setGeometry(20, 50, 218, 31)
 
-        self.__mode = False
+        """
+        Connect buttons to methods
+        """
+
         self.mode.clicked.connect(lambda: self.mode_status())
 
         self.clear.clicked.connect(lambda: self.clear_button())
@@ -87,7 +112,12 @@ class Logic(QMainWindow, Ui_MainWindow):
 
         self.submit.clicked.connect(lambda: self.submit_clicked())
 
-    def submit_clicked(self):
+    def submit_clicked(self) -> None:
+        """
+        Method that checks whether circle, rectangle, square, or triangle is checked
+        Performs appropriate actions for the shape selected
+        """
+        self.preview.setText("")
         if self.circle.isChecked():
             print("True")
             radius = self.lineEdit1.text()
@@ -162,7 +192,10 @@ class Logic(QMainWindow, Ui_MainWindow):
                 self.lineEdit2.setText(f"")
                 self.main_text.setText("Error")
 
-    def circle_clicked(self):
+    def circle_clicked(self) -> None:
+        """
+        Method that displays the appropriate boxes and labels for the circle calculation
+        """
         self.label1.show()
         self.lineEdit1.show()
         self.submit.show()
@@ -175,6 +208,9 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.lineEdit1.setPlaceholderText("Enter radius value here")
 
     def square_clicked(self):
+        """
+        Method that displays the appropriate boxes and labels for the square calculation
+        """
         self.label1.show()
         self.lineEdit1.show()
         self.submit.show()
@@ -187,6 +223,9 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.lineEdit1.setPlaceholderText("Enter side value here")
 
     def rectangle_clicked(self):
+        """
+        Method that displays the appropriate boxes and labels for the rectangle calculation
+        """
         self.label1.show()
         self.lineEdit1.show()
         self.label2.show()
@@ -201,6 +240,9 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.lineEdit2.setPlaceholderText("Enter width value here")
 
     def triangle_clicked(self):
+        """
+        Method that displays the appropriate boxes and labels for the triangle calculation
+        """
         self.label1.show()
         self.lineEdit1.show()
         self.label2.show()
@@ -214,26 +256,40 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.lineEdit1.setPlaceholderText("Enter base value here")
         self.lineEdit2.setPlaceholderText("Enter height value here")
 
-    def click_button(self, num):
+    def click_button(self, number: str) -> None:
+        """
+        Method that displays the number of the button clicked
+        :param number: Number of button that is clicked
+        """
         self.delete_2.setEnabled(True)
         self.var1 = 1
         text = self.main_text.text()
         if text == "0" or text == "Error":
             text = ""
-        elif "Ans" in text or text == "Error":
+        elif "Ans" in text or text == "Error" or "Area" in text:
             text = ""
             self.preview.setText("")
-        self.main_text.setText(text + num)
+        self.main_text.setText(text + number)
 
     def decimal_button(self):
+        """
+        Method for decimal button actions
+        """
         text = self.main_text.text()
         text_list = list(text)
         if text_list[-1] == ".":
             self.main_text.setText(text)
+        elif "Ans" in text or "Area" in text:
+            self.main_text.setText("0.")
+            self.preview.setText("")
         else:
             self.main_text.setText(text + ".")
 
-    def function_button(self, function):
+    def function_button(self, function: str) -> None:
+        """
+        Method that displays the function of the button clicked
+        :param function: function of the button clicked
+        """
         self.delete_2.setEnabled(True)
         preview = self.preview.text()
         text = self.main_text.text()
@@ -253,7 +309,11 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.preview.setText(preview + text + function)
         self.main_text.setText("0")
 
-    def equal_button(self):
+    def equal_button(self) -> None:
+
+        """
+        Method handling actions of the equal button
+        """
 
         self.delete_2.setEnabled(False)
         # self.disable_num()
@@ -274,18 +334,27 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.main_text.setText(f"Error")
         self.var1 = 2
 
-    def clear_button(self):
+    def clear_button(self) -> None:
+        """
+        Method handling actions of the clear button
+        """
         self.delete_2.setEnabled(True)
         self.enable_num()
         self.main_text.setText("0")
         self.preview.setText("")
 
-    def delete_button(self):
+    def delete_button(self) -> None:
+        """
+        Methods handling the delete button
+        """
         text = self.main_text.text()
         text1 = text[:-1]
         self.main_text.setText(text1)
 
-    def negative_button(self):
+    def negative_button(self) -> None:
+        """
+        Method handling the actions of the +/- button
+        """
         text = self.main_text.text()
         text1 = list(text)
         if not self.__negative:
@@ -296,7 +365,7 @@ class Logic(QMainWindow, Ui_MainWindow):
                 self.main_text.setText(f"{text[1:]}")
             self.__negative = False
 
-    def hide_radio(self):
+    def hide_radio(self) -> None:
         self.circle.hide()
         self.square.hide()
         self.rectangle.hide()
@@ -308,8 +377,11 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.rectangle.show()
         self.triangle.show()
 
-    def mode_status(self):
+    def mode_status(self) -> None:
 
+        """
+        Method that changes size of window when mode button is pushed
+        """
         if not self.__mode:
             self.setFixedWidth(WIDTH_MODE)
             self.__mode = True
@@ -332,6 +404,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.nine.setEnabled(False)
         self.negative.setEnable(False)
         self.decimal.setEnable(False)
+        self.delete_2.setEnable(False)
 
     def enable_num(self):
         self.zero.setEnabled(True)
