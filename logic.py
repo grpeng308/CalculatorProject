@@ -332,6 +332,7 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.main_text.setText(f"Ans = {solution}")
         except ZeroDivisionError:
             self.main_text.setText(f"Error")
+            self.preview.setText("")
         self.var1 = 2
 
     def clear_button(self) -> None:
