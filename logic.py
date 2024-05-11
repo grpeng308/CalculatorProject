@@ -276,8 +276,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         Method for decimal button actions
         """
         text = self.main_text.text()
-        text_list = list(text)
-        if text_list[-1] == ".":
+        if "." in text:
             self.main_text.setText(text)
         elif "Ans" in text or "Area" in text:
             self.main_text.setText("0.")
@@ -316,7 +315,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         """
 
         self.delete_2.setEnabled(False)
-        # self.disable_num()
 
         text = self.main_text.text()
         preview = self.preview.text()
@@ -340,7 +338,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         Method handling actions of the clear button
         """
         self.delete_2.setEnabled(True)
-        self.enable_num()
         self.main_text.setText("0")
         self.preview.setText("")
 
@@ -366,18 +363,6 @@ class Logic(QMainWindow, Ui_MainWindow):
                 self.main_text.setText(f"{text[1:]}")
             self.__negative = False
 
-    def hide_radio(self) -> None:
-        self.circle.hide()
-        self.square.hide()
-        self.rectangle.hide()
-        self.triangle.hide()
-
-    def show_radio(self):
-        self.circle.show()
-        self.square.show()
-        self.rectangle.show()
-        self.triangle.show()
-
     def mode_status(self) -> None:
 
         """
@@ -386,47 +371,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         if not self.__mode:
             self.setFixedWidth(WIDTH_MODE)
             self.__mode = True
-            # self.show_radio()
         else:
             self.setFixedWidth(WIDTH_NO_MODE)
             self.__mode = False
-            # self.hide_radio()
 
-    def disable_num(self):
-        self.zero.setEnabled(False)
-        self.one.setEnabled(False)
-        self.two.setEnabled(False)
-        self.three.setEnabled(False)
-        self.four.setEnabled(False)
-        self.five.setEnabled(False)
-        self.six.setEnabled(False)
-        self.seven.setEnabled(False)
-        self.eight.setEnabled(False)
-        self.nine.setEnabled(False)
-        self.negative.setEnable(False)
-        self.decimal.setEnable(False)
-        self.delete_2.setEnable(False)
-
-    def enable_num(self):
-        self.zero.setEnabled(True)
-        self.one.setEnabled(True)
-        self.two.setEnabled(True)
-        self.three.setEnabled(True)
-        self.four.setEnabled(True)
-        self.five.setEnabled(True)
-        self.six.setEnabled(True)
-        self.seven.setEnabled(True)
-        self.eight.setEnabled(True)
-        self.nine.setEnabled(True)
-        self.negative.setEnabled(True)
-        self.decimal.setEnabled(True)
-
-    '''
-    def set_width(self, width):
-        if self.__mode:
-            self.setFixedWidth(300)
-            self.__mode = False
-        else:
-            self.setFixedWidth(400)
-            self.__mode = True
-            '''
